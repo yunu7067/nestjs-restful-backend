@@ -1,7 +1,8 @@
 # ihstudies.org 백엔드
 
 ### 기술 개요
-NestJS + GraphQL + Auth0
+MariaDB +  NestJS + TypeORM + GraphQL  
+
 
 ### API
 | 이름       | 경로              | 목적                                   |
