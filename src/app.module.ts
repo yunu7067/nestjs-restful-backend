@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
-import { PhotosModule } from './photos/photos.module';
+import { GraphQLModule } from '@nestjs/graphql';
 
 @Module({
   imports: [
+    GraphQLModule.forRoot({
+      installSubscriptionHandlers: true,
+      autoSchemaFile: 'schema.gql',
+    }),
     TypeOrmModule.forRoot({
       type: 'mariadb',
       host: '121.186.2.69',
@@ -16,7 +20,6 @@ import { PhotosModule } from './photos/photos.module';
       synchronize: true,
     }),
     UsersModule,
-    PhotosModule,
   ],
 })
 export class AppModule {}
