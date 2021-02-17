@@ -1,8 +1,10 @@
 # ihstudies.org 백엔드
 
 ### 기술 개요
+
 MariaDB +  NestJS + TypeORM + GraphQL  
 
+Authentication : Passport + JWT  
 
 ### API
 | 이름       | 경로              | 목적                                   |
