@@ -1,6 +1,4 @@
 import { Query, Args, Mutation, Resolver } from '@nestjs/graphql';
-import { Role } from 'src/roles/enum/role.enum';
-import { Roles } from 'src/roles/roles.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -20,7 +18,6 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
-  @Roles(Role.Admin)
   async createUser(@Args('data') user: CreateUserDto) {
     return await this.usersService.create(user);
   }

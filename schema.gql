@@ -4,11 +4,8 @@
 
 type User {
   id: ID!
-  password: String!
-  firstName: String!
-  lastName: String!
-  isActive: Boolean!
   email: String!
+  encrypted: String!
   role: String!
 }
 
@@ -22,6 +19,6 @@ type Mutation {
 }
 
 input CreateUserDto {
-  firstName: String!
-  lastName: String!
+  email: String!
+  password: String!
 }
