@@ -6,7 +6,13 @@ import {
   Logger,
   Param,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Roles } from 'src/roles/decorator/roles.decorator';
+import { Role } from 'src/roles/enum/role.enum';
+import { RolesGuard } from 'src/roles/roles.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -24,7 +30,9 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
+  @Roles(Role.Admin)
   findAll(): Promise<User[]> {
     this.logger.debug('findAll()');
 

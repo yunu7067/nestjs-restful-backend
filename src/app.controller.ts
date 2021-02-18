@@ -29,7 +29,7 @@ export class AppController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('profile')
-  @Roles(Role.Admin)
+  @Roles(Role.User)
   getProfile(@Request() req) {
     this.logger.debug('getProfile()');
 
