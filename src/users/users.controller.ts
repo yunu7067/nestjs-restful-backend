@@ -8,11 +8,10 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { Roles } from 'src/roles/decorator/roles.decorator';
-import { Role } from 'src/roles/enum/role.enum';
-import { RolesGuard } from 'src/roles/roles.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Roles } from '../roles/decorator/roles.decorator';
+import { Role } from '../roles/enum/role.enum';
+import { RolesGuard } from '../roles/roles.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -40,7 +39,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<User> {
+  findOne(@Param('id') id: string): Promise<User | undefined> {
     this.logger.debug('findOne()');
 
     return this.usersService.findOne(id);

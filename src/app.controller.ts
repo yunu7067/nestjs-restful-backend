@@ -21,7 +21,7 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
-  async login(@Request() req) {
+  async login(@Request() req: Express.Request) {
     this.logger.debug('login()');
 
     return this.authService.login(req.user);
@@ -30,7 +30,7 @@ export class AppController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('profile')
   @Roles(Role.User)
-  getProfile(@Request() req) {
+  getProfile(@Request() req: Express.Request) {
     this.logger.debug('getProfile()');
 
     return req.user;

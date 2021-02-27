@@ -15,7 +15,7 @@ export class AuthService {
     this.logger.debug('validateUser(id, pass)');
 
     const user = await this.usersService.findOneByEmail(id);
-    this.logger.debug(`validateUser(id, pass) : ${user.encrypted}`);
+    this.logger.debug(`validateUser(id, pass) : ${user?.encrypted}`);
     if (user && (await user.validatePassword(pass))) {
       this.logger.debug(
         `validateUser(id, pass) : ${await user.validatePassword(pass)}`,

@@ -19,15 +19,15 @@ export class User {
   @Column({ unique: true })
   @IsEmail()
   @Field()
-  email: string;
+  email!: string;
 
   @Column({ nullable: false, default: 'dlsxjspt' })
   @Field()
-  encrypted: string;
+  encrypted!: string;
 
   @Column({ default: Role.User })
   @Field()
-  role: Role;
+  role!: Role;
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {

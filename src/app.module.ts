@@ -4,9 +4,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
 import { UsersModule } from './users/users.module';
-import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from './roles/roles.guard';
-import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -22,6 +19,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
       password: 'dlsxjspt7510',
       database: 'ihstudies',
       autoLoadEntities: true,
+      keepConnectionAlive: true,
       synchronize: true,
     }),
     UsersModule,

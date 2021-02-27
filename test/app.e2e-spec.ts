@@ -6,7 +6,7 @@ import { AppModule } from './../src/app.module';
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -15,10 +15,23 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  describe('/users', () => {
+    it('Get users with out Sign in (GET)', () => {
+      return request(app.getHttpServer()).get('/users').expect(401);
+    });
+
+    it('Create User (POST)', () => {
+      return request(app.getHttpServer())
+        .post('/users')
+        .send({
+          email: 'test@naver.com',
+          password: '12345677',
+        })
+        .expect(201);
+    });
+
+    it('Find One (GET)', () => {
+      return request(app.getHttpServer()).get('/users/40').expect(200);
+    });
   });
 });

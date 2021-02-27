@@ -5,9 +5,9 @@ import { IsEmail, IsString } from 'class-validator';
 export class CreateUserDto {
   @Field()
   @IsEmail()
-  readonly email: string;
+  readonly email!: string;
 
   @Field()
   @IsString()
-  readonly password: string;
+  readonly password!: string;
 }
