@@ -39,7 +39,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<User | undefined> {
+  findOne(@Param('id') id: number): Promise<User | undefined> {
     this.logger.debug('findOne()');
 
     return this.usersService.findOne(id);

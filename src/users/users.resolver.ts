@@ -15,7 +15,7 @@ export class UsersResolver {
 
   @Query(() => User)
   async getUserById(@Args('id') id: number) {
-    return await this.usersService.findOne(String(id));
+    return await this.usersService.findOne(id);
   }
 
   @Mutation(() => User)
