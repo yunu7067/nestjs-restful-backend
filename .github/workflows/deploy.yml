@@ -16,14 +16,30 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+        
     - name: install dependencies
       run: yarn install
+      
     - name: build project
       run: yarn build
+      
     - name: zip project
       run: zip -r deploy.zip .
       
+    - name: Get current time
+      uses: 1466587594/get-current-time@v2 
+      id: current-time
+      with:
+        format: YYYY-MM-DDTHH-mm-ss # (1)
+        utcOffset: "+09:00"
+        
+        
+
+    - name: Show Current Time
+      run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}" # (2)
+      shell: bash
