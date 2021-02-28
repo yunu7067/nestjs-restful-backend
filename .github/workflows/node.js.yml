@@ -8,12 +8,12 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [14.x]
+    
     steps:
     - uses: actions/checkout@v2
     
@@ -26,9 +26,9 @@ jobs:
     
     - name: install dependencies
       run: yarn install
-  
+    
     - name: build project
       run: yarn build
-      
+    
     - name: e2e testing
     - run: yarn test:e2e
