@@ -31,8 +31,8 @@ jobs:
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: cp-admin-client
-        environment_name: cp-client-dev
+        application_name: gf-42labs
+        environment_name: Gf42labs-env
         version_label: ${{github.run_number}}
         use_existing_version_if_available: true
         region: ap-northeast-2
