@@ -25,7 +25,7 @@ jobs:
     - name: build project
       run: yarn build
     - name: zip project
-      run: zip -r deploy.zip .
+      run: zip -r deploy.zip ./dist
     - name: Deploy to Elastic Beanstalk 
       uses: einaregilsson/beanstalk-deploy@v10
       with:
