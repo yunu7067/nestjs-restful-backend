@@ -24,5 +24,4 @@ jobs:
       run: yarn install
     - name: build project
       run: yarn build
-    - name: e2e testing
-      run: yarn test:e2e
+      
