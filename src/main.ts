@@ -11,7 +11,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  await app.listen(3333);
+  await app.listen(80);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
