@@ -35,29 +35,29 @@ jobs:
       working-directory: ./client
       run: yarn build
     
-  build_nestjs:
-    needs: build_react
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
-    
-    steps:
+  #build_nestjs:
+    #needs: build_react
+    #runs-on: ubuntu-latest
+    #strategy:
+    #  matrix:
+    #    node-version: [14.x]
+    # 
+    #steps:
     # 체크아웃
-    - name: Checkout
-      uses: actions/checkout@v2.3.4
+    #- name: Checkout
+    #  uses: actions/checkout@v2.3.4
     # Node 모듈 캐싱
-    - name: Cache node modules
-      uses: actions/cache@v2
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
+    #- name: Cache node modules
+    #  uses: actions/cache@v2
+    #  with:
+    #    path: ~/.npm
+    #    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    #    restore-keys: |
+    #      ${{ runner.os }}-node-
+    #- name: Use Node.js ${{ matrix.node-version }}
+    #  uses: actions/setup-node@v1
+    #  with:
+    #    node-version: ${{ matrix.node-version }}
     - name: install dependencies
       run: yarn install
     - name: build project
@@ -73,18 +73,17 @@ jobs:
       shell: bash
     - name: Generate deployment package
       run: zip -r deploy.zip .
-    - name: Open Web Client Directory
-      run: |
-        ls -al
+      
+  #deploy_to_eb:
+   # needs: build_nestjs
+    #runs-on: ubuntu-latest
+    #steps:
+    #- uses: actions/checkout@v2.3.4
+    #- name: Open Web Client Directory
+    #  run: |
+    #    ls -al
     
-  deploy_to_eb:
-    needs: build_nestjs
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2.3.4
-    - name: Open Web Client Directory
-      run: |
-        ls -al
+    # Beanstalk에 Deploy.zip 업로드
     - name: Beanstalk Deploy
       uses: einaregilsson/beanstalk-deploy@v16
       with:
