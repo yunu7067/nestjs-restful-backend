@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build_and_compress:
     runs-on: ubuntu-latest
 
     strategy:
@@ -43,6 +43,15 @@ jobs:
     - name: Generate deployment package
       run: zip -r deploy.zip .
       
+  deploy_to_beanstalk:
+    needs: build_and_compress
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+    
+    steps:
     - name: Beanstalk Deploy
       uses: einaregilsson/beanstalk-deploy@v16
       with:
