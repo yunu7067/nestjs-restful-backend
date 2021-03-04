@@ -13,16 +13,12 @@ jobs:
       matrix:
         node-version: [14.x]
     steps:
-    - uses: actions/checkout@v2.3.4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: change diretory
-      working-directory: ./client
+    - uses: actions/checkout@v2.3.4  
     - name: install dependencies
+      working-directory: ./client
       run: yarn install
     - name: build project
+      working-directory: ./client
       run: yarn build
     
   build_nestjs:
@@ -31,6 +27,7 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x]
+    
     steps:
     - uses: actions/checkout@v2.3.4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -52,7 +49,7 @@ jobs:
       shell: bash
     - name: Generate deployment package
       run: zip -r deploy.zip .
-          
+    
   deploy_to_eb:
     needs: build_nestjs
     runs-on: ubuntu-latest
