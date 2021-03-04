@@ -14,6 +14,10 @@ jobs:
         node-version: [14.x]
     steps:
     - uses: actions/checkout@v2.3.4  
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
     - name: install dependencies
       working-directory: ./client
       run: yarn install
@@ -53,11 +57,11 @@ jobs:
   deploy_to_eb:
     needs: build_nestjs
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
     steps:
     - uses: actions/checkout@v2.3.4
+    - name: Open Web Client Directory
+      run: |
+        ls -al
     - name: Beanstalk Deploy
       uses: einaregilsson/beanstalk-deploy@v16
       with:
