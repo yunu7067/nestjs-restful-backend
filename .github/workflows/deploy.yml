@@ -13,7 +13,17 @@ jobs:
       matrix:
         node-version: [14.x]
     steps:
-    - uses: actions/checkout@v2.3.4  
+    # 체크아웃
+    - name: Checkout
+      uses: actions/checkout@v2.3.4
+    # Node 모듈 캐싱
+    - name: Cache node modules
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
@@ -33,7 +43,17 @@ jobs:
         node-version: [14.x]
     
     steps:
-    - uses: actions/checkout@v2.3.4
+    # 체크아웃
+    - name: Checkout
+      uses: actions/checkout@v2.3.4
+    # Node 모듈 캐싱
+    - name: Cache node modules
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
@@ -53,6 +73,9 @@ jobs:
       shell: bash
     - name: Generate deployment package
       run: zip -r deploy.zip .
+    - name: Open Web Client Directory
+      run: |
+        ls -al
     
   deploy_to_eb:
     needs: build_nestjs
