@@ -108,9 +108,10 @@ jobs:
         status: ${{ job.status }}
         fields: workFlow, repo, commit, eventName, action, author, took
         text: 'Github Action이 성공적으로 종료됨'
-        if_mention: 'success'
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOKS_URI }}
+        MATRIX_CONTEXT: ${{ toJson(matrix) }}
+      if: success()
 
     # Slack 메시지 (실패시)
     - name: Send Message to Slack
@@ -119,7 +120,7 @@ jobs:
         status: ${{ job.status }}
         fields: workFlow, repo, commit, eventName, action, author, took
         text: 'Github Action이 실패함'
-        if_mention: 'failure'
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOKS_URI }}
-      if: failure() # Pick up events even if the job fails or is canceled.
+        MATRIX_CONTEXT: ${{ toJson(matrix) }}
+      if: failure()
