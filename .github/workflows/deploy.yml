@@ -27,26 +27,98 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
-      node-version: ${{ matrix.node-version }}
+        node-version: ${{ matrix.node-version }}
     
+    # React 빌드
+    - name: install frontend dependencies
+      working-directory: ./client
+      run: yarn install
+    - name: build frontend
+      working-directory: ./client
+      run: yarn build
+    
+  #build_nestjs:
+    #needs: build_react
+    #runs-on: ubuntu-latest
+    #strategy:
+    #  matrix:
+    #    node-version: [14.x]
+    # 
+    #steps:
+    # 체크아웃
+    #- name: Checkout
+    #  uses: actions/checkout@v2.3.4
+    # Node 모듈 캐싱
+    #- name: Cache node modules
+    #  uses: actions/cache@v2
+    #  with:
+    #    path: ~/.npm
+    #    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    #    restore-keys: |
+    #      ${{ runner.os }}-node-
+    #- name: Use Node.js ${{ matrix.node-version }}
+    #  uses: actions/setup-node@v1
+    #  with:
+    #    node-version: ${{ matrix.node-version }}
+    
+    # NestJS 빌드
+    - name: install backend dependencies
+      run: yarn install
+    - name: build backend
+      run: yarn build
+    
+    - name: Get current time
+      uses: 1466587594/get-current-time@v2 
+      id: current-time
+      with:
+        format: YYYY-MM-DDTHH-mm-ss # (1)
+        utcOffset: "+09:00"
+    - name: Show Current Time
+      run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}" # (2)
+      shell: bash
+    - name: Generate deployment package
+      run: zip -r deploy.zip .
+      
+  #deploy_to_eb:
+   # needs: build_nestjs
+    #runs-on: ubuntu-latest
+    #steps:
+    #- uses: actions/checkout@v2.3.4
+    #- name: Open Web Client Directory
+    #  run: |
+    #    ls -al
+    
+    # Beanstalk에 Deploy.zip 업로드
+    - name: Beanstalk Deploy
+      uses: einaregilsson/beanstalk-deploy@v16
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: gf-42labs
+        environment_name: Gf42labs-env
+        version_label: ${{ github.run_id }}
+        region: ap-northeast-2
+        deployment_package: deploy.zip
         
-
+        
     # Slack 메시지 (성공시)
     - name: Send Message to Slack
       uses: 8398a7/action-slack@v3
       with:
         status: ${{ job.status }}
+        fields: workFlow, repo, commit, eventName, action, author, took
+        text: 'Github Action이 성공적으로 종료됨'
         if_mention: 'success'
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOKS_URI }}
-      
 
     # Slack 메시지 (실패시)
     - name: Send Message to Slack
       uses: 8398a7/action-slack@v3
       with:
         status: ${{ job.status }}
-        text: 'Github Action 실패'
+        fields: workFlow, repo, commit, eventName, action, author, took
+        text: 'Github Action이 실패함'
         if_mention: 'failure'
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOKS_URI }}
