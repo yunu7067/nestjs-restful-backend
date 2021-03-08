@@ -21,7 +21,7 @@ export class User {
   @Field()
   email!: string;
 
-  @Column({ nullable: false, default: 'dlsxjspt' })
+  @Column({ nullable: false })
   @Field()
   encrypted!: string;
 
